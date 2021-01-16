@@ -16,6 +16,20 @@ return [
         'identityClass' => 'app\models\User',
         'enableAutoLogin' => true,
     ],
+    'view' => [
+        'class' => 'yii\web\View',
+        'renderers' => [
+            'twig' => [
+                'class' => 'yii\twig\ViewRenderer',
+                'cachePath' => '@runtime/Twig/cache',
+                'options' => [
+                    'auto_reload' => true,
+                ],
+                'globals' => ['html' => '\yii\helpers\Html'],
+                'uses' => ['yii\bootstrap'],
+            ],
+        ],
+    ],
     'errorHandler' => [
         'errorAction' => 'site/error',
     ],
