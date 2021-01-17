@@ -1,8 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\user\controllers;
 
-use app\models\LoginForm;
+use app\modules\user\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
