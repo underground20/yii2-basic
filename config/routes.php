@@ -1,9 +1,9 @@
 <?php
 return [
-    '/' => 'site/index',
-    'about' => 'site/about',
-    'contact' => 'contact/index',
+    '/' => '/main/site/index',
+    'about' => '/main/site/about',
+    'contact' => '/main/contact/index',
 
-    'login' => 'authorization/login',
-    'logout' => 'authorization/logout',
+    'login' => '/user/authorization/login',
+    'logout' => '/user/authorization/logout',
 ];
