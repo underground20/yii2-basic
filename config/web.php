@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
+$dependencies = require __DIR__ . '/dependencies.php';
 
 $config = [
     'id' => 'basic',
@@ -12,6 +13,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => $components,
+    'definitions' => $dependencies,
     'params' => $params,
 ];
 
