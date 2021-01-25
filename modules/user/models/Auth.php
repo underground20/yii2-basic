@@ -39,6 +39,11 @@ class Auth implements IdentityInterface
         return $this->user->auth_key;
     }
 
+    public function getUsername()
+    {
+        return$this->user->username;
+    }
+
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;

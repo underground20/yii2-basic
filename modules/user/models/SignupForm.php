@@ -36,8 +36,10 @@ class SignupForm extends Model
                 $this->email,
                 $this->password
             );
-            return $user->save();
+            if ($user->save()) {
+                return $user;
+            }
         }
-        return false;
+        return null;
     }
 }
