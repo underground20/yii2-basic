@@ -8,5 +8,5 @@ return [
     'signup' => '/user/authorization/signup',
     'logout' => '/user/authorization/logout',
 
-    'profile/view/<id:\d+>' => '/main/profile/view'
+    'profile/view/<name:\w+>' => '/main/profile/view'
 ];

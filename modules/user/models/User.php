@@ -19,6 +19,10 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string  $about
+ * @property integer $type
+ * @property string $nickname
+ * @property string $picture
  * @property string $password write-only password
  */
 class User extends ActiveRecord
@@ -44,6 +48,11 @@ class User extends ActiveRecord
         $user->generateAuthKey();
 
         return $user;
+    }
+
+    public function getNickName()
+    {
+        return $this->nickname ?? $this->id;
     }
 
     public static function findByUsername($username)
