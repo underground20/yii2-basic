@@ -3,6 +3,7 @@
 namespace app\modules\user\controllers;
 
 use app\modules\user\models\LoginForm;
+use app\modules\user\models\SignupForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -31,6 +32,20 @@ class AuthorizationController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionSignup()
+    {
+        $signupForm = new SignupForm();
+
+        if ($signupForm->load(Yii::$app->request->post()) && $signupForm->save()) {
+            $this->redirect('/');
+            Yii::$app->session->setFlash('success', 'User registered');
+        }
+
+        return $this->render('signup', [
+            'model' => $signupForm
+        ]);
     }
 
     public function actionLogin()

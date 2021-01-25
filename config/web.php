@@ -14,8 +14,10 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'container' => [
+        'definitions' => $dependencies,
+    ],
     'components' => $components,
-    'definitions' => $dependencies,
     'modules' => $modules,
     'params' => $params,
 ];
