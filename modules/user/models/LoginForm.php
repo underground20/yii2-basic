@@ -37,7 +37,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ?
+            return Yii::$app->user->login(new Auth($this->getUser()), $this->rememberMe ?
                 self::USER_LOGIN_DURATION : 0);
         }
         return false;

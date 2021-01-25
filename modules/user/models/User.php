@@ -21,7 +21,7 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property string $password write-only password
  */
-class User extends ActiveRecord implements IdentityInterface
+class User extends ActiveRecord
 {
     public static function tableName()
     {
@@ -35,14 +35,15 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public static function findIdentity($id)
+    public static function createBySignup($username, $email, $password)
     {
-        return static::findOne(['id' => $id]);
-    }
+        $user = new self();
+        $user->username = $username;
+        $user->email = $email;
+        $user->setPassword($password);
+        $user->generateAuthKey();
 
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-
+        return $user;
     }
 
     public static function findByUsername($username)
@@ -50,29 +51,14 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['username' => $username]);
     }
 
-    public function getId()
-    {
-        return $this->getPrimaryKey();
-    }
-
     public function generateAuthKey()
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-    }
-
-    public function validateAuthKey($authKey)
-    {
-        return $this->auth_key === $authKey;
     }
 
     public function validatePassword($password)

@@ -31,12 +31,11 @@ class SignupForm extends Model
     public function save()
     {
         if ($this->validate()) {
-            $user = new User();
-            $user->username = $this->username;
-            $user->email = $this->email;
-            $user->setPassword($this->password);
-            $user->generateAuthKey();
-
+            $user = User::createBySignup(
+                $this->username,
+                $this->email,
+                $this->password
+            );
             return $user->save();
         }
         return false;

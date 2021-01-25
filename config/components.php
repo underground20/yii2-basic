@@ -13,7 +13,7 @@ return [
         'class' => 'yii\caching\FileCache',
     ],
     'user' => [
-        'identityClass' => 'app\modules\user\models\User',
+        'identityClass' => 'app\modules\user\models\Auth',
         'enableAutoLogin' => true,
     ],
     'view' => [
