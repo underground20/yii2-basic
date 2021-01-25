@@ -1,8 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\main\controllers;
 
-use app\models\ContactForm;
+use app\modules\main\models\ContactForm;
 use Yii;
 use yii\web\Controller;
 

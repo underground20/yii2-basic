@@ -13,11 +13,25 @@ return [
         'class' => 'yii\caching\FileCache',
     ],
     'user' => [
-        'identityClass' => 'app\models\User',
+        'identityClass' => 'app\modules\user\models\User',
         'enableAutoLogin' => true,
     ],
+    'view' => [
+        'class' => 'yii\web\View',
+        'renderers' => [
+            'twig' => [
+                'class' => 'yii\twig\ViewRenderer',
+                'cachePath' => '@runtime/Twig/cache',
+                'options' => [
+                    'auto_reload' => true,
+                ],
+                'globals' => ['html' => '\yii\helpers\Html'],
+                'uses' => ['yii\bootstrap'],
+            ],
+        ],
+    ],
     'errorHandler' => [
-        'errorAction' => 'site/error',
+        'errorAction' => '/main/site/error',
     ],
     'log' => [
         'traceLevel' => YII_DEBUG ? 3 : 0,

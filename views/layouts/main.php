@@ -38,14 +38,14 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/contact/index']],
+            ['label' => 'Home', 'url' => ['/main/site/index']],
+            ['label' => 'About', 'url' => ['/main/site/about']],
+            ['label' => 'Contact', 'url' => ['/main/contact/index']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/authorization/login']]
+                ['label' => 'Login', 'url' => ['/user/authorization/login']]
             ) : (
                 '<li>'
-                . Html::beginForm(['/authorization/logout'], 'post')
+                . Html::beginForm(['/user/authorization/logout'], 'post')
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']

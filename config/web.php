@@ -3,17 +3,20 @@
 $params = require __DIR__ . '/params.php';
 $components = require __DIR__ . '/components.php';
 $dependencies = require __DIR__ . '/dependencies.php';
+$modules = require __DIR__ . '/modules.php';
 
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => $components,
     'definitions' => $dependencies,
+    'modules' => $modules,
     'params' => $params,
 ];
 
