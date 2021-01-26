@@ -39,11 +39,13 @@ class User extends ActiveRecord
         ];
     }
 
-    public static function createBySignup($username, $email, $password)
+    public static function createBySignup($username, $email, $password, $about = null, $nickname = null)
     {
         $user = new self();
         $user->username = $username;
         $user->email = $email;
+        $user->about = $about;
+        $user->nickname = $nickname;
         $user->setPassword($password);
         $user->generateAuthKey();
 

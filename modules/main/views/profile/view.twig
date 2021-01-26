@@ -1,1 +1,2 @@
-Hello {{ user.username }}
+<h1>{{ html.encode(user.username) }}</h1>
+<div>{{ html.encode(user.about) }}</div>

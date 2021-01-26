@@ -3,6 +3,8 @@
 namespace app\modules\main\controllers;
 
 use app\modules\user\models\User;
+use Faker\Factory;
+use Yii;
 use yii\web\Controller;
 
 class SiteController extends Controller
