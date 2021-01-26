@@ -1,0 +1,6 @@
+<h1>{{ html.encode(user.username) }}</h1>
+<div>{{ html.encode(user.about) }}</div>
+<hr>
+
+<a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">Subscribe</a>
+<a href="{{ url('/user/profile/unsubscribe', {'id': user.id}) }}" class="btn btn-primary">Unsubscribe</a>
