@@ -7,7 +7,7 @@
                 <h2>Users</h2>
                 {% for user in users %}
                     <div>
-                        <a href="{{ url('/main/profile/view', {'name' : user.getNickname()}) }}">
+                        <a href="{{ url('/user/profile/view', {'name' : user.getNickname()}) }}">
                             {{ user.username }}
                         </a><hr>
                     </div>

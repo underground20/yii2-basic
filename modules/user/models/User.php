@@ -5,7 +5,7 @@ namespace app\modules\user\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+use yii\web\NotFoundHttpException;
 
 /**
  * User model
@@ -60,6 +60,15 @@ class User extends ActiveRecord
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username]);
+    }
+
+    public static function findBy($name)
+    {
+        $user = self::find()->where(['nickname' => $name])->orWhere(['id' => $name])->one();
+        if ($user) {
+            return $user;
+        }
+        throw new NotFoundHttpException();
     }
 
     public function generateAuthKey()

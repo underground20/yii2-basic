@@ -18,6 +18,11 @@ class Auth implements IdentityInterface
         return $this->user->$name;
     }
 
+    public function __call($method, $args)
+    {
+        $this->user->$method($args);
+    }
+
     public static function findIdentity($id)
     {
         $user = User::findOne(['id' => $id]);
@@ -27,6 +32,11 @@ class Auth implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
 
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 
     public function getId()
