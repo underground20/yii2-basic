@@ -13,7 +13,7 @@ return [
         'class' => 'yii\caching\FileCache',
     ],
     'user' => [
-        'identityClass' => 'app\modules\user\models\User',
+        'identityClass' => 'app\modules\user\models\Auth',
         'enableAutoLogin' => true,
     ],
     'view' => [
@@ -25,10 +25,20 @@ return [
                 'options' => [
                     'auto_reload' => true,
                 ],
-                'globals' => ['html' => '\yii\helpers\Html'],
+                'globals' => [
+                    'html' => [
+                        'class'=>'\yii\helpers\Html'
+                    ]
+                ],
                 'uses' => ['yii\bootstrap'],
             ],
         ],
+    ],
+    'redis' => [
+        'class' => 'yii\redis\Connection',
+        'hostname' => 'redis',
+        'port' => 6379,
+        'database' => 0,
     ],
     'errorHandler' => [
         'errorAction' => '/main/site/error',

@@ -2,6 +2,9 @@
 
 namespace app\modules\main\controllers;
 
+use app\modules\user\models\User;
+use Faker\Factory;
+use Yii;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -17,7 +20,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $users = User::find()->all();
+        return $this->render('index.twig', [
+            'users' => $users
+        ]);
     }
 
     public function actionAbout()

@@ -35,25 +35,29 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    $items = [
+        ['label' => 'Home', 'url' => ['/main/site/index']],
+        ['label' => 'About', 'url' => ['/main/site/about']],
+        ['label' => 'Contact', 'url' => ['/main/contact/index']]
+    ];
+
+    if (Yii::$app->user->isGuest) {
+        $items[] = ['label' => 'Signup', 'url' => ['/user/authorization/signup']];
+        $items[] = ['label' => 'Login', 'url' => ['/user/authorization/login']];
+    } else {
+        $items[] =  '<li>'
+            . Html::beginForm(['/user/authorization/logout'], 'post')
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->getUsername() . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/main/site/index']],
-            ['label' => 'About', 'url' => ['/main/site/about']],
-            ['label' => 'Contact', 'url' => ['/main/contact/index']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/user/authorization/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/user/authorization/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
+        'items' => $items
     ]);
     NavBar::end();
     ?>

@@ -1,0 +1,75 @@
+<h1>{{ html.encode(user.username) }}</h1>
+<div>{{ html.encode(user.about) }}</div>
+<hr>
+
+{% if user.id != currentUser.id %}
+    {% if not isSubscribe %}
+        <a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">
+            Subscribe
+        </a>
+    {% else %}
+        <a href="{{ url('/user/profile/un-subscribe', {'id': user.id}) }}" class="btn btn-primary">
+            Unsubscribe
+        </a>
+    {% endif %}
+{% endif %}
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#subscriptions">
+    Subscriptions: {{ countSubscriptions }}
+</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#followers">
+    Followers: {{ countFollowers }}
+</button>
+
+<div class="modal fade" id="subscriptions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Subscriptions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for subscription in subscriptions %}
+                    <a href="{{ url('/user/profile/view', {'name': subscription.nickname})}}">
+                        <h3>{{ subscription.username }}</h3>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="followers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Followers</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for follower in followers %}
+                    <a href="{{ url('/user/profile/view', {'name': follower.nickname ?? follower.id})}}">
+                        <h3>{{ follower.username }}</h3>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if currentUser and recommended is not empty %}
+    <h4>People who also subscribed</h4>
+    {% for common in recommended %}
+        <div>{{ common.username }}</div>
+    {% endfor %}
+{% endif %}
+

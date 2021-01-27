@@ -1,0 +1,19 @@
+{{ set(this, 'title', 'Application') }}
+
+<div class="site-index">
+    <div class="body-content">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2>Users</h2>
+                {% for user in users %}
+                    <div>
+                        <a href="{{ url('/user/profile/view', {'name' : user.getNickname()}) }}">
+                            {{ user.username }}
+                        </a><hr>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</div>
