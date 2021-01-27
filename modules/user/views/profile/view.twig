@@ -1,18 +1,24 @@
 <h1>{{ html.encode(user.username) }}</h1>
 <div>{{ html.encode(user.about) }}</div>
 <hr>
-<a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">
-    Subscribe
-</a>
-<a href="{{ url('/user/profile/un-subscribe', {'id': user.id}) }}" class="btn btn-primary">
-    Unsubscribe
-</a>
+
+{% if user.id != currentUser.id %}
+    {% if not isSubscribe %}
+        <a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">
+            Subscribe
+        </a>
+    {% else %}
+        <a href="{{ url('/user/profile/un-subscribe', {'id': user.id}) }}" class="btn btn-primary">
+            Unsubscribe
+        </a>
+    {% endif %}
+{% endif %}
 
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#subscriptions">
-    View subscriptions
+    Subscriptions: {{ countSubscriptions }}
 </button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#followers">
-    View followers
+    Followers: {{ countFollowers }}
 </button>
 
 <div class="modal fade" id="subscriptions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -27,7 +33,7 @@
             <div class="modal-body">
                 {% for subscription in subscriptions %}
                     <a href="{{ url('/user/profile/view', {'name': subscription.nickname})}}">
-                        <h3>{{ subscription.username }}</h3><hr>
+                        <h3>{{ subscription.username }}</h3>
                     </a>
                 {% endfor %}
             </div>
@@ -48,8 +54,8 @@
             </div>
             <div class="modal-body">
                 {% for follower in followers %}
-                    <a href="{{ url('/user/profile/view', {'name': follower.nickname})}}">
-                        <h3>{{ follower.username }}</h3><hr>
+                    <a href="{{ url('/user/profile/view', {'name': follower.nickname ?? follower.id})}}">
+                        <h3>{{ follower.username }}</h3>
                     </a>
                 {% endfor %}
             </div>
@@ -59,4 +65,11 @@
         </div>
     </div>
 </div>
+
+{% if currentUser and recommended is not empty %}
+    <h4>People who also subscribed</h4>
+    {% for common in recommended %}
+        <div>{{ common.username }}</div>
+    {% endfor %}
+{% endif %}
 

@@ -12,7 +12,6 @@ class SubscribeService
 
     public function __construct()
     {
-        /* @var $redis Connection */
         $this->redis = Yii::$app->redis;
     }
 
@@ -32,19 +31,43 @@ class SubscribeService
     {
         $key = "user:{$currentUser->id}:subscriptions";
         $ids = $this->redis->smembers($key);
-
-        return User::find()->select('id, username, nickname')
-            ->where(['id' => $ids])
-            ->orderBy('username')
-            ->asArray()
-            ->all();
+        return $this->getUsers($ids);
     }
 
     public function getFollowers($currentUser)
     {
         $key = "user:{$currentUser->id}:followers";
         $ids = $this->redis->smembers($key);
+        return $this->getUsers($ids);
+    }
 
+    public function countSubscription($currentUser)
+    {
+        return $this->redis->scard("user:{$currentUser->id}:subscriptions");
+    }
+
+    public function countFollowers($currentUser)
+    {
+        return $this->redis->scard("user:{$currentUser->id}:followers");
+    }
+
+    public function getRecommended($currentUser, $user)
+    {
+        $key1 = "user:{$currentUser->id}:subscriptions";
+        $key2 = "user:{$user->id}:followers";
+
+        $ids = $this->redis->sinter($key1, $key2);
+        return $this->getUsers($ids);
+    }
+
+    public function isSubscribe($currentUser, $user)
+    {
+        $key = "user:{$currentUser->id}:subscriptions";
+        return $this->redis->sismember($key, $user->id);
+    }
+
+    private function getUsers($ids)
+    {
         return User::find()->select('id, username, nickname')
             ->where(['id' => $ids])
             ->orderBy('username')

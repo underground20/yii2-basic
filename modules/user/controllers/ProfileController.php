@@ -20,13 +20,23 @@ class ProfileController extends Controller
     public function actionView($name)
     {
         $user = User::findBy($name);
+        $currentUser = Yii::$app->user->identity->getUser();
         $subscriptions = $this->subscribeService->getSubscriptions($user);
         $followers = $this->subscribeService->getFollowers($user);
+        $countSubscriptions = $this->subscribeService->countSubscription($user);
+        $countFollowers = $this->subscribeService->countFollowers($user);
+        $recommended = $this->subscribeService->getRecommended($currentUser, $user);
+        $isSubscribe = $this->subscribeService->isSubscribe($currentUser, $user);
 
         return $this->render('view.twig', [
             'user' => $user,
+            'currentUser' => $currentUser,
             'subscriptions' => $subscriptions,
-            'followers' => $followers
+            'followers' => $followers,
+            'countSubscriptions' => $countSubscriptions,
+            'countFollowers' => $countFollowers,
+            'recommended' => $recommended,
+            'isSubscribe' => $isSubscribe
         ]);
     }
 
