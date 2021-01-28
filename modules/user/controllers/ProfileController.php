@@ -2,10 +2,12 @@
 
 namespace app\modules\user\controllers;
 
+use app\modules\user\models\UploadForm;
 use app\modules\user\models\User;
 use app\modules\user\services\SubscribeService;
 use Yii;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 
 class ProfileController extends Controller
 {
@@ -19,6 +21,7 @@ class ProfileController extends Controller
 
     public function actionView($name)
     {
+        $model = new UploadForm();
         $user = User::findBy($name);
         $currentUser = Yii::$app->user->identity->getUser();
         $subscriptions = $this->subscribeService->getSubscriptions($user);
@@ -36,7 +39,8 @@ class ProfileController extends Controller
             'countSubscriptions' => $countSubscriptions,
             'countFollowers' => $countFollowers,
             'recommended' => $recommended,
-            'isSubscribe' => $isSubscribe
+            'isSubscribe' => $isSubscribe,
+            'model' => $model
         ]);
     }
 
@@ -64,5 +68,20 @@ class ProfileController extends Controller
 
         return $this->redirect(['/user/profile/view', 'name' => $currentUser->getNickName()]);
 
+    }
+
+    public function actionUploadFile()
+    {
+        $model = new UploadForm();
+        $model->file = UploadedFile::getInstance($model, 'file');
+        if ($model->validate()) {
+            $user = Yii::$app->user->identity->getUser();
+            $user->picture = Yii::$app->storage->saveUploadedFile($model->file);
+
+            if ($user->save(false, ['picture'])) {
+                Yii::$app->session->setFlash('success', 'You are add picture in profile');
+                return $this->redirect(['/user/profile/view', 'name' => $user->getNickName()]);
+            }
+        }
     }
 }
