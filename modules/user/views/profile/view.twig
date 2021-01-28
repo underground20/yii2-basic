@@ -2,6 +2,15 @@
 <div>{{ html.encode(user.about) }}</div>
 <hr>
 
+<div>
+    {% set form = active_form_begin({
+        'id' : 'upload-form',
+        'action' : '/user/profile/upload-file'
+    }) %}
+        {{ form.field(model, 'file').fileInput() | raw }}
+        <button class="btn btn-success">Download</button>
+    {{ active_form_end() }}
+</div><hr>
 {% if user.id != currentUser.id %}
     {% if not isSubscribe %}
         <a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">
