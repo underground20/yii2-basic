@@ -81,6 +81,13 @@ class User extends ActiveRecord
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
+    public function  getPicture()
+    {
+        if ($this->picture) {
+            return Yii::$app->storage->getFile($this->picture);
+        }
+    }
+
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);

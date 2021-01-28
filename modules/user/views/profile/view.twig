@@ -1,16 +1,24 @@
 <h1>{{ html.encode(user.username) }}</h1>
 <div>{{ html.encode(user.about) }}</div>
+{% if user.getPicture() is not empty %}
+    <img src="{{ user.getPicture() }}">
+{% else %}
+    <span>Место для фото</span>
+{% endif %}
 <hr>
 
-<div>
-    {% set form = active_form_begin({
-        'id' : 'upload-form',
-        'action' : '/user/profile/upload-file'
-    }) %}
-        {{ form.field(model, 'file').fileInput() | raw }}
-        <button class="btn btn-success">Download</button>
-    {{ active_form_end() }}
-</div><hr>
+{% if currentUser.equals(user) %}
+    <div>
+        {% set form = active_form_begin({
+            'id' : 'upload-form',
+            'action' : '/user/profile/upload-file'
+        }) %}
+            {{ form.field(model, 'file').fileInput() | raw }}
+            <button class="btn btn-success">Download</button>
+        {{ active_form_end() }}
+    </div><hr>
+{% endif %}
+
 {% if user.id != currentUser.id %}
     {% if not isSubscribe %}
         <a href="{{ url('/user/profile/subscribe', {'id': user.id}) }}" class="btn btn-primary">

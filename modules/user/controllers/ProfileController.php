@@ -74,8 +74,14 @@ class ProfileController extends Controller
     {
         $model = new UploadForm();
         $model->file = UploadedFile::getInstance($model, 'file');
-        if (Yii::$app->request->isPost) {
-            $model->upload();
+        if ($model->validate()) {
+            $user = Yii::$app->user->identity->getUser();
+            $user->picture = Yii::$app->storage->saveUploadedFile($model->file);
+
+            if ($user->save(false, ['picture'])) {
+                Yii::$app->session->setFlash('success', 'You are add picture in profile');
+                return $this->redirect(['/user/profile/view', 'name' => $user->getNickName()]);
+            }
         }
     }
 }

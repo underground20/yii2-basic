@@ -59,4 +59,7 @@ return [
         'enableStrictParsing' => false,
         'rules' => $routes
     ],
+    'storage' => [
+        'class' => 'app\components\Storage'
+    ]
 ];
